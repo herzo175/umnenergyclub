@@ -74,31 +74,18 @@ router.post("/register", function(req, res) {
         passport.authenticate("local")(req, res, function() {
             req.flash("success", "Welcome, " + req.body.name);
             var officerArray = ["jeremyaherzog@gmail.com","wang3790@umn.edu"]; //array of officer emails
-            async.each(officerArray, function(officer, callback) {
-                if (officer === newUser.email) {
-                    newUser.isOfficer = true;
-                    newUser.save();
-                    callback(null);
-                }
-                else {
-                    newUser.isOfficer = false;
-                    callback(null);
-                }
-            }, function(err) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    //newUser.isWebmaster = true;
-                    //newUser.save();
-                    if (req.query.url) {
-                        res.redirect(req.query.url);
-                    }
-                    else {
-                        res.redirect("/");
-                    }
-                }
-            });
+            if (officerArray.indexOf(newUser.email) > -1) {
+                newUser.isOfficer = true;
+                newUser.save();
+            }
+            //newUser.isWebmaster = true;
+            //newUser.save();
+            if (req.query.url) {
+                res.redirect(req.query.url);
+            }
+            else {
+                res.redirect("/");
+            }
         });
     });
 });
