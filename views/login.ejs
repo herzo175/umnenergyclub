@@ -1,0 +1,50 @@
+<% include ./partials/header %>
+
+<div class="ui grid">
+    <div class="one wide column"></div>
+    <div class="six wide column">
+        <div class="ui fluid container">
+            <h3 class="ui header">Login</h3>
+            <% if (url) { %>
+            <form class="ui form" action="/login?url=<%=url%>" method="POST" required>
+            <% } else { %>
+            <form class="ui form" action="/login" method="POST" required>
+            <% } %>
+                <div class="field">
+                    <input type="email" name="username" placeholder="Email" required>
+                </div>
+                <div class="field">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <div class="field">
+                    <input class="ui basic button orange" type="submit" value="Login">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="one wide column">
+        <div class="ui vertical divider">Or</div>
+    </div>
+    <div class="seven wide column">
+        <div class="ui container">
+            <form class="ui form" action="/register" method="POST" required>
+                <h3 class="ui header">Register</h3>
+                <div class="field">
+                    <input type="text" name="name" placeholder="Name" required>
+                </div>
+                <div class="field">
+                    <input type="email" name="username" placeholder="Email" required>
+                </div>
+                <div class="field">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <div class="field">
+                    <input class="ui basic button violet" type="submit" value="Register">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="one wide column"></div>
+</div>
+
+<% include ./partials/footer %>

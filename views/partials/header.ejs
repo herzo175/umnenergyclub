@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UMN Energy Club</title>
+        <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+        <link rel="stylesheet" type= "text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css">
+        <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+    </head>
+    <body>
+        <div class="ui grid">
+            <div class="two column row">
+                <div class="column">
+                    <div class="menuContainer left" style="font-size:40px;padding:4%">
+                        <a href="/" style="color:black;"><i class="sun icon"></i> UMN Energy Club</a>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="menuContainer right">
+                        <div class="ui pointing dropdown top right"><i class="sidebar icon"></i>
+                            <div class="menu">
+                                <% if (!currentUser) { %>
+                                <a href="/login" class="item"><i class="sign in icon"></i> Log in</a>
+                                <% } else { %>
+                                <a href="/logout" class="item"><i class="sign out icon"></i> Log Out</a>
+                                <a href="/createpost" class="item"><i class="options icon"></i> Create Post</a>
+                                    <% if (currentUser.isOfficer === true) { %>
+                                    <a href="/createproject" class="item"><i class="idea icon"></i> Create Project</a>
+                                    <a href="/createmeeting" class="item"><i class="maximize icon"></i> Create Meeting</a>
+                                    <a href="/members" class="item"><i class="users icon"></i> Members</a>
+                                    <a href="/settings" class="item"><i class="settings icon"></i> Settings</a>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="one column row">
+                <div class="column">
+                    <div class="ui two column centered grid">
+                        <div class= "column">
+                            <div class="ui five item secondary pointing menu fluid">
+                                <a class="item" id="projectsLink" href="/projects">
+                                    Projects
+                                </a>
+                                <a class="item" id="calendarLink" href="/calendar">
+                                    Calendar
+                                </a>
+                                <a class="item" id="meetingsLink" href="/meetings">
+                                    Meetings
+                                </a>
+                                <a class="item" id="aboutLink" href="/about">
+                                    About
+                                </a>
+                                <a class="item" id="officersLink" href="/officers">
+                                    Officers
+                                </a>
+                                <a class="item" id="contactLink" href="/contact">
+                                    Contact
+                                </a>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                <% if (error && error.length > 0) { %>
+                <div class="one column row">
+                    <div class="column">
+                        <div class="ui error message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                <%=error%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                    
+                <% if (success && success.length > 0) { %>
+                <div class="one column row">
+                    <div class="column">
+                        <div class="ui success message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                <%=success%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                    
+            <div class="sixteen wide column">

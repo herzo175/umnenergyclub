@@ -1,0 +1,34 @@
+<% include ./partials/header %>
+
+<div class="ui horizontal divider">Officers</div>
+
+<div class="ui two column centered grid">
+    <div class="column">
+        <% officers.forEach(function(officer) { %>
+        <% if (currentUser) { %>
+            <% if ("" + currentUser._id === "" + officer._id) { %>
+            <br><div class="ui header">
+                <%=officer.name%>
+                <span style="float:right;">
+                    <a href="/settings" style="color:black;">
+                        <i class="edit icon"></i>
+                    </a>
+                </span>
+            </div>
+            <div class="ui header">
+                <%=officer.role%>
+            </div>
+            <% } %>
+        <% } else { %>
+            <br><div class="ui header"><%=officer.name%></div>
+            <div class="ui header"><%=officer.role%></div>
+        <% } %>
+            <div class="ui medium image">
+                <img src="<%=officer.photo%>">
+            </div>
+        <p><%=officer.bio%></p>
+        <% }); %>
+    </div>
+</div>
+
+<% include ./partials/footer %>

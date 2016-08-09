@@ -1,0 +1,24 @@
+<% include /partials/header %>
+
+<div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+        <div class="ui horizontal divider">Edit Post</div>
+        <form class="ui form" action="/editpost/<%=post._id%>?_method=PUT" method="POST">
+            <div class="field">
+                <label for="titleField">Title</label>
+                <input id="titleField" type="text" name="post[title]" value="<%=post.title%>" placeholder="Title">
+            </div>
+            <div class="field">
+                <label for="textField">Body</label>
+                <textarea id="textField" type="text" name="post[text]" placeholder="Text"><%=post.text%></textarea>
+            </div>
+            <div class="field">
+                <input type="submit" class="ui basic button teal" value="Edit Post">
+            </div>
+        </form>
+    </div>
+    <div class="two wide column"></div>
+</div>
+
+<% include /partials/footer %>

@@ -1,0 +1,113 @@
+<% include ./partials/header %>
+
+<link href="https://fastcdn.org/Glide.js/2.0.4/css/glide.core.min.css" rel="stylesheet">
+<link href="https://fastcdn.org/Glide.js/2.0.4/css/glide.theme.min.css" rel="stylesheet">
+<script src="https://fastcdn.org/Glide.js/2.0.4/glide.min.js"></script>
+
+<div class="container" style="padding-left:30%;">
+    <div id="Glide" class="glide">
+        
+        <div class="glide__wrapper" style="height:350px;">
+            <div class="glide__track">
+                <div class="glide__slide">
+                    <div class="box" style="height:350px">
+                        <img src="http://umnenergyclub.weebly.com/uploads/1/6/8/4/16848090/739344.jpg">
+                    </div>
+                </div>
+                <div class="glide__slide">
+                    <div class="box" style="height:350px">
+                        <img src="http://umnenergyclub.weebly.com/uploads/1/6/8/4/16848090/739344.jpg">
+                    </div>
+                </div>
+                <div class="glide__slide">
+                    <div class="box" style="height:350px">
+                        <img src="http://umnenergyclub.weebly.com/uploads/1/6/8/4/16848090/739344.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="ui horizontal divider">Posts</div>
+
+<div class="ui two column centered grid">
+    <div class="column">
+        <% posts.forEach(function(post) { %>
+            <% if (currentUser) { %>
+                <% if (post.author.id.equals(currentUser._id) || currentUser.isOfficer === true) { %>
+                <br><div class="ui header">
+                    <%=post.title%>
+                    <span style="float:right;">
+                        <a href="/deletepost/<%=post._id%>?_method=DELETE" style="color:black;">
+                            <i class="remove icon"></i>
+                        </a>
+                        <a href="/editpost/<%=post._id%>" style="color:black;">
+                            <i class="edit icon"></i>
+                        </a>
+                    </span>
+                </div>
+                <% } %>
+            <% } else { %>
+            <br><div class="ui left floated header"><%=post.title%></div>
+            <% } %>
+        <% post.images.forEach(function(image) { %>
+            <div class="ui medium image">
+                <img src="<%=image%>">
+            </div>
+        <% }) %>
+        <div class="ui clearing divider"></div>
+        <p><%=post.text%></p>
+        <p>By <%=post.author.name%></p>
+        <p>Posted <%=post.posted.toDateString()%></p>
+        <div class="ui grid">
+            <div class="one wide column"></div>
+            <div class="ten wide column">
+                <h5 class="ui left floated header">Comments:</h5>
+                <div class="ui clearing divider"></div>
+                <% if (currentUser) { %>
+                <form class="ui form" action="/createcomment/<%=post._id%>" method="POST">
+                    <div class="inline fields">
+                        <div class="field">
+                            <input type="text" name="comment[text]" placeholder="New Comment">
+                        </div>
+                        <div class="field">
+                            <input type="submit" value="Submit" class="ui basic button violet">
+                        </div>
+                    </div>
+                </form>
+                <% } %>
+                <% post.comments.forEach(function(comment) { %>
+                    <% if (currentUser) { %>
+                        <% if (comment.author.id.equals(currentUser._id) || currentUser.isOfficer === true) { %>
+                        <h5 class="ui header">
+                            <%=comment.author.name%>
+                            <span style="float:right;">
+                                <a href="/deletecomment/<%=comment._id%>?_method=DELETE" style="color:black;">
+                                    <i class="remove icon"></i>
+                                </a>
+                            </span>
+                        </h5>
+                        <% } else { %>
+                        <h5 class="ui header"><%=comment.author.name%></h5>
+                        <% } %>
+                    <% } else { %>
+                    <h5 class="ui header"><%=comment.author.name%></h5>
+                    <% } %>
+                    <p><%=comment.text%></p>
+                <% }) %>
+            </div>
+            <div class="five wide column"></div>
+        </div>
+        <% }); %>
+    </div>
+</div>
+
+<script>
+    $("#Glide").glide({
+        type: "carousel",
+    });
+</script>
+
+<% include ./partials/footer %>

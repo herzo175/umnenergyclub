@@ -1,0 +1,52 @@
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if(window.location.href.indexOf("about") > -1) {
+                    $('.ui .item').removeClass('active');
+                    $('#aboutLink').addClass('active');
+                }
+                else if(window.location.href.indexOf("calendar") > -1) {
+                    $('.ui .item').removeClass('active');
+                    $('#calendarLink').addClass('active');
+                }
+                else if(window.location.href.indexOf("meetings") > -1) {
+                    $('.ui .item').removeClass('active');
+                    $('#meetingsLink').addClass('active');
+                }
+                else if(window.location.href.indexOf("contact") > -1) {
+                    $('.ui .item').removeClass('active');
+                    $('#contactLink').addClass('active');
+                }
+                else if(window.location.href.indexOf("officers") > -1) {
+                    $('.ui .item').removeClass('active');
+                    $('#officersLink').addClass('active');
+                }
+                else if(window.location.href.indexOf("projects") > -1) {
+                    $('.ui .item').removeClass('active');
+                    $('#projectsLink').addClass('active');
+                }
+                else {
+                    $('.ui .item').removeClass('active');
+                }
+            });
+            
+            $('.ui.dropdown').dropdown()
+            
+            $('.ui.sticky').sticky();
+            
+            $('.ui.checkbox').checkbox();
+            
+            $('.ui.radio.checkbox').checkbox();
+            
+            $('.message .close')
+              .on('click', function() {
+                $(this)
+                  .closest('.message')
+                  .transition('fade')
+                ;
+            });
+            
+        </script>
+    </body>
+</html>

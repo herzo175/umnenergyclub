@@ -1,0 +1,28 @@
+<% include ./partials/header %>
+
+<div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+        <div class="ui horizontal divider">Contact Us</div>
+        <form class="ui form" action="/contact" method="POST">
+            <div class="field">
+                <label for="emailField">Email Address</label>
+                <input id="emailField" type="text" name="email" placeholder="Email Address">
+            </div>
+            <div class="field">
+                <label for="subjectField">Subject</label>
+                <input id="subjectField" type="text" name="subject" placeholder="Subject">
+            </div>
+            <div class="field">
+                <label for="textField">Body</label>
+                <textarea id="textField" type="text" name="body" placeholder="Body"></textarea>
+            </div>
+            <div class="field">
+                <input type="submit" class="ui basic button violet" value="Submit">
+            </div>
+        </form>
+    </div>
+    <div class="two wide column"></div>
+</div>
+
+<% include ./partials/footer %>

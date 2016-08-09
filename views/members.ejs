@@ -1,0 +1,65 @@
+<% include ./partials/header %>
+
+<div class="ui grid">
+    <div class="one wide column"></div>
+    <div class="fourteen wide column">
+        <table class="ui very basic compact celled table">
+            <thead>
+                <tr>
+                    <th>
+                        <div class="ui header">
+                            User
+                        </div>
+                    </th>
+                    <% meetings.forEach(function(meeting) { %>
+                        <th>
+                            <div class="ui center aligned header">
+                                <%=meeting.title%>
+                            </div>
+                        </th>
+                    <% }) %>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(function(user) { %>
+                    <tr>
+                        <td>
+                            <h5 class="ui header">
+                                <div class="ui toggle checkbox">
+                                    <input type="checkbox" name="emails" value="<%=user.email%>" form="emailForm">
+                                    <label><%=user.name%></label>
+                                </div>
+                            </h5>
+                        </td>
+                        <% meetings.forEach(function(meeting) { %>
+                            <td>
+                                <% if (meeting.attendeeNames.indexOf(user.name) > -1) { %>
+                                    <div class="ui center aligned header">
+                                        <i class="checkmark icon"></i>
+                                    </div>
+                                <% } %>
+                            </td>
+                        <% }) %>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <form class="ui form" id="emailForm" action="/sendemail" method="POST">
+            <div class="ui header">Send Email</div>
+            <div class="field">
+                <label for="subjectField">Subject</label>
+                <input id="subjectField" type="text" name="subject">
+            </div>
+            <div class="field">
+                <label for="bodyField">Body</label>
+                <textarea id="bodyField" type="text" name="body"></textarea>
+            </div>
+            <div class="fields">
+                <input type="submit" value="Send" class="ui basic button violet">
+            </div>
+        </form>
+    </div>
+    <div class="one wide column"></div>
+</div>
+
+<% include ./partials/footer %>

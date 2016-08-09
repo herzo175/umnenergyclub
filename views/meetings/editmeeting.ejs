@@ -1,0 +1,24 @@
+<% include /partials/header %>
+
+<div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column">
+        <div class="ui horizontal divider">Edit Meeting</div>
+        <form class="ui form" action="/editmeeting/<%=meeting._id%>?_method=PUT" method="POST">
+            <div class="field">
+                <label for="titleField">Title</label>
+                <input id="titleField" type="text" name="meeting[title]" value="<%=meeting.title%>" placeholder="Title">
+            </div>
+            <div class="field">
+                <label for="textField">Body</label>
+                <textarea id="textField" type="text" name="meeting[text]" placeholder="Text"><%=meeting.text%></textarea>
+            </div>
+            <div class="field">
+                <input type="submit" class="ui basic button teal" value="Submit">
+            </div>
+        </form>
+    </div>
+    <div class="two wide column"></div>
+</div>
+
+<% include /partials/footer %>

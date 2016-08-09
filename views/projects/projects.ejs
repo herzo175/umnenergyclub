@@ -1,0 +1,65 @@
+<% include /partials/header %>
+
+<div class="ui two column centered grid">
+    <div class="column">
+        <div class="ui horizontal divider">Active Projects</div>
+        <% projects.forEach(function(project) { %>
+            <% if (project.isActive === true) { %>
+                <% if (currentUser) { %>
+                    <% if (project.author.id.equals(currentUser._id) || currentUser.isOfficer === true) { %>
+                    <br><div class="ui header">
+                        <%=project.title%>
+                        <span style="float:right;">
+                            <a href="/deleteproject/<%=project._id%>?_method=DELETE" style="color:black;">
+                                <i class="remove icon"></i>
+                            </a>
+                            <a href="/editproject/<%=project._id%>" style="color:black;">
+                                <i class="edit icon"></i>
+                            </a>
+                            <a href="/toggleproject/<%=project._id%>" style="color:black;">
+                                <i class="toggle on icon"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <% } %>
+                <% } else { %>
+                <br><div class="ui left floated header"><%=project.title%></div>
+                <% } %>
+            <div class="ui clearing divider"></div>
+            <p><%=project.text%></p>
+            <p>Posted <%=project.posted.toDateString()%></p>
+            <% } %>
+        <% }); %>
+        
+        <div class="ui horizontal divider">Inactive Projects</div>
+        <% projects.forEach(function(project) { %>
+            <% if (project.isActive === false) { %>
+                <% if (currentUser) { %>
+                    <% if (project.author.id.equals(currentUser._id) || currentUser.isOfficer === true) { %>
+                    <br><div class="ui header">
+                        <%=project.title%>
+                        <span style="float:right;">
+                            <a href="/deleteproject/<%=project._id%>?_method=DELETE" style="color:black;">
+                                <i class="remove icon"></i>
+                            </a>
+                            <a href="/editproject/<%=project._id%>" style="color:black;">
+                                <i class="edit icon"></i>
+                            </a>
+                            <a href="/toggleproject/<%=project._id%>" style="color:black;">
+                                <i class="toggle off icon"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <% } %>
+                <% } else { %>
+                <br><div class="ui left floated header"><%=project.title%></div>
+                <% } %>
+            <div class="ui clearing divider"></div>
+            <p><%=project.text%></p>
+            <p>Posted <%=project.posted.toDateString()%></p>
+            <% } %>
+        <% }); %>
+    </div>
+</div>
+
+<% include /partials/footer %>
