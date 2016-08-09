@@ -27,7 +27,7 @@ app.use(flash()); //allows us to use flash messages
 //app.set('upload', multer({ dest: 'uploads/' }));
 
 //database stuff (connects to either the local database (data directory) or the database connected to the hosted server
-var url = process.env.DATABASE /*|| "mongodb://localhost/app"*/;
+var url = process.env.DATABASE || "mongodb://localhost/app";
 console.log(url);
 mongoose.connect(url);
 //var seedDB = require("./seeds.js"); //in case we want to seed the database with sample posts and users
