@@ -7,11 +7,10 @@ var async = require("async");
 //models
 var User = require("../models/user");
 var Post = require("../models/post");
-var Project = require("../models/project");
 var Meeting = require("../models/meeting");
 
 //libraries
-var middleware = require("../library/middleware")
+var middleware = require("../library/middleware");
 
 router.get("/", function(req, res) {
     //returns all posts on the website since the search parameter is empty
