@@ -30,7 +30,7 @@ app.use(flash()); //allows us to use flash messages
 /*var url = process.env.DATABASE || "mongodb://localhost/app";
 console.log(url);
 mongoose.connect(url);*/
-mongoose.connect("mongod://herzo175:T&&ron01@ds145295.mlab.com:45295/umn_energy_club");
+mongoose.connect("mongodb://herzo175:T&&ron01@ds145295.mlab.com:45295/umn_energy_club");
 //var seedDB = require("./seeds.js"); //in case we want to seed the database with sample posts and users
 //seedDB();
 
