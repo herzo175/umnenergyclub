@@ -11,6 +11,7 @@ router.post("/createcomment/:post_id", function(req, res) {
             console.log(err);
         }
         else {
+            req.body.comment.text = req.sanitize(req.body.comment.text);
             Comment.create(req.body.comment, function(err, newComment) {
                 if (err) {
                     console.log(err);

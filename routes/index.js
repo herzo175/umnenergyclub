@@ -11,6 +11,7 @@ var Meeting = require("../models/meeting");
 
 //libraries
 var middleware = require("../library/middleware");
+var apis = require("../library/apis");
 
 router.get("/", function(req, res) {
     //returns all posts on the website since the search parameter is empty
@@ -64,6 +65,7 @@ router.post("/login", passport.authenticate("local",
 
 //handle register
 router.post("/register", function(req, res) {
+    req.body.name = req.sanitize(req.body.name);
     var newUser = new User({username: req.body.username, email: req.body.username, name: req.body.name});
     User.register(newUser, req.body.password, function(err, newUser) {
         if (err) {
@@ -115,6 +117,7 @@ router.get("/settings", middleware.isLoggedIn, function(req, res) {
 router.post("/settings", middleware.isLoggedIn, function(req, res) {
     //as a security measure, a user object is used to update the user instead of relying on body parser's object if we used user[] for all the fields
     //this is so someone can't duplicate the page, add fields that would allow them to become an admin, and submit it to get admin access
+    req.body.bio = req.sanitize(req.body.bio);
     var userObj = {
         role: req.body.role,
         bio: req.body.bio,
@@ -144,8 +147,12 @@ router.get("/contact", function(req, res) {
 });
 
 router.post("/contact", function(req, res) {
-    //add mailgun api
-    res.send("need to configure the mailgun api" + req.body);
+    req.body.email = req.sanitize(req.body.email);
+    req.body.subject = req.sanitize(req.body.subject);
+    req.body.body = req.sanitize(req.body.body);
+    console.log(req.body);
+    apis.sendEmailToAdmin(req);
+    res.redirect("/");
 });
 
 router.get("/members", middleware.isLoggedIn, function(req, res) {
@@ -185,7 +192,11 @@ router.post("/twilio/message", function(req, res) {
 });
 
 router.post("/sendemail", function(req, res) {
-    res.send("need to configure the mailgun api" + req.body);
+    req.body.subject = req.sanitize(req.body.subject);
+    req.body.body = req.sanitize(req.body.body);
+    console.log(req.body);
+    apis.sendEmailsToRecipients(req);
+    res.redirect("/");
 });
 
 module.exports = router;

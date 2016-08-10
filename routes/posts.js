@@ -12,6 +12,8 @@ router.get("/createpost", middleware.isLoggedIn, function(req, res) {
 });
 
 router.post("/createpost", middleware.isLoggedIn, function(req, res) {
+    req.body.post.title = req.sanitize(req.body.post.title);
+    req.body.post.text = req.sanitize(req.body.post.text);
     Post.create(req.body.post, function(err, newPost) {
         if (err) {
             console.log(err);
@@ -42,6 +44,8 @@ router.get("/editpost/:post_id", middleware.isLoggedIn, function(req, res) {
 });
 
 router.put("/editpost/:post_id", middleware.isLoggedIn, function(req, res) {
+    req.body.post.title = req.sanitize(req.body.post.title);
+    req.body.post.text = req.sanitize(req.body.post.text);
     Post.findByIdAndUpdate(req.params.post_id, req.body.post, function(err, updatedPost) {
         if (err) {
             console.log(err);

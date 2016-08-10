@@ -24,6 +24,8 @@ router.get("/createmeeting", function(req, res) {
 });
 
 router.post("/createmeeting", middleware.isLoggedIn, function(req, res) {
+    req.body.meeting.title = req.sanitize(req.body.meeting.title);
+    req.body.meeting.text = req.sanitize(req.body.meeting.text);
     Meeting.create(req.body.meeting, function(err, newMeeting) {
         if (err) {
             console.log(err);
@@ -68,6 +70,8 @@ router.get("/editmeeting/:meeting_id", middleware.isLoggedIn, function(req, res)
 });
 
 router.put("/editmeeting/:meeting_id", middleware.isLoggedIn, function(req, res) {
+    req.body.meeting.title = req.sanitize(req.body.meeting.title);
+    req.body.meeting.text = req.sanitize(req.body.meeting.text);
     Meeting.findByIdAndUpdate(req.params.meeting_id, req.body.meeting, function(err, updatedMeeting) {
         if (err) {
             console.log(err);

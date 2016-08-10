@@ -13,6 +13,7 @@ router.get("/projects", function(req, res) {
             console.log(err);
         }
         else {
+            foundProjects.reverse();
             res.render("projects/projects", {projects: foundProjects});
         }
     });
@@ -23,6 +24,8 @@ router.get("/createproject", middleware.isLoggedIn, middleware.isLoggedIn, funct
 });
 
 router.post("/createproject", middleware.isLoggedIn, function(req, res) {
+    req.body.project.title = req.sanitize(req.body.project.title);
+    req.body.project.text = req.sanitize(req.body.project.text);
     Project.create(req.body.project, function(err, newProject) {
         if (err) {
             console.log(err);
@@ -49,6 +52,8 @@ router.get("/editproject/:project_id", middleware.isLoggedIn, function(req, res)
 });
 
 router.put("/editproject/:project_id", middleware.isLoggedIn, function(req, res) {
+    req.body.project.title = req.sanitize(req.body.project.title);
+    req.body.project.text = req.sanitize(req.body.project.text);
     Project.findByIdAndUpdate(req.params.project_id, req.body.project, function(err, updatedProject) {
         if (err) {
             console.log(err);

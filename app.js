@@ -9,16 +9,18 @@ var localStrategy = require("passport-local"); //basic passport authentication s
 //var facebookStrategy = require("passport-facebook").Strategy; //allows us to sign up/login someone through facebook's api
 //var googleStrategy = require( 'passport-google-oauth2' ).Strategy; //allows us to sign up/login someone through google's api
 var passport = require("passport"); //the passport module itself. It's used to authenticate a user and keep their data persistent as they navigate from page to page
-//var expressSanitizer = require("express-sanitizer"); //used to keep malicious code from being entered through forms
+var expressSanitizer = require("express-sanitizer"); //used to keep malicious code from being entered through forms
 //var multer = require("multer"); //used for file uploads
 //var expressSession = require("express-session")
+var helmet = require('helmet');
 
 //var config = require("./oauth");
 
 //random stuff (activates many of the dependencies above)
+app.use(helmet());
 app.set("view engine", "ejs"); //allows us to make and render ejs templates
 app.use(bodyParser.urlencoded({extended: true})); //allows us to use body parser
-//app.use(expressSanitizer());
+app.use(expressSanitizer());
 app.use(express.static(__dirname + "/public")); //use the directory with the stylesheet
 app.use(methodOverride("_method")); //allows us to use method override
 app.use(flash()); //allows us to use flash messages
@@ -37,7 +39,8 @@ mongoose.connect(url);
 //authentication stuff
 var User = require("./models/user"); //imports the user model
 app.use(require("express-session")({ //used create persistent user data so they don't get logged out when the go to another page
-    secret: "Tupac lives!", //this can be anything
+    secret: "Tupac lives!", //this can be anything...
+    name: "f&a877Z01001$$@qpz95", //this is totally random...
     resave: false,
     saveUninitialized: false,
 }));
