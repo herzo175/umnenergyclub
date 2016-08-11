@@ -1,32 +1,26 @@
 <% include ./partials/header %>
 
-<link href="https://fastcdn.org/Glide.js/2.0.4/css/glide.core.min.css" rel="stylesheet">
-<link href="https://fastcdn.org/Glide.js/2.0.4/css/glide.theme.min.css" rel="stylesheet">
-<script src="https://fastcdn.org/Glide.js/2.0.4/glide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slidesjs/3.0/jquery.slides.min.js"></script>
 
-<div class="container" style="padding-left:34%;">
-    <div id="Glide" class="glide">
-        
-        <div class="glide__wrapper" style="height:350px;">
-            <div class="glide__track">
-                <div class="glide__slide">
-                    <div class="box" style="height:350px">
-                        <img src="http://umnenergyclub.weebly.com/uploads/1/6/8/4/16848090/739344.jpg">
-                    </div>
-                </div>
-                <div class="glide__slide">
-                    <div class="box" style="height:350px">
-                        <img src="http://umnenergyclub.weebly.com/uploads/1/6/8/4/16848090/739344.jpg">
-                    </div>
-                </div>
-                <div class="glide__slide">
-                    <div class="box" style="height:350px">
-                        <img src="http://umnenergyclub.weebly.com/uploads/1/6/8/4/16848090/739344.jpg">
-                    </div>
-                </div>
-            </div>
+<style>
+    .slidesjs-pagination {
+        display:none;
+    }
+</style>
+
+<div class="ui two column centered grid">
+    <div class="column">
+        <div id="slides">
+            <% posts.forEach(function(post){ %>
+                <% if (post.image === "") { %>
+                    <% return %>
+                <% } else { %>
+                    <img class="ui centered medium image" style="display:none;" src="<%=post.image%>">
+                <% } %>
+            <% }) %>
+            <a href="#" class="slidesjs-previous slidesjs-navigation" title="Previous" style="color:black;display:none;"><i class="chevron left icon"></i></a>
+            <a href="#" class="slidesjs-next slidesjs-navigation" title="Next" style="color:black;display:none;"><i class="chevron right icon"></i></a>
         </div>
-        
     </div>
 </div>
 
@@ -52,12 +46,10 @@
             <% } else { %>
             <br><div class="ui left floated header"><%=post.title%></div>
             <% } %>
-        <% post.images.forEach(function(image) { %>
-            <div class="ui medium image">
-                <img src="<%=image%>">
-            </div>
-        <% }) %>
         <div class="ui clearing divider"></div>
+        <div class="ui medium image">
+            <img src="<%=post.image%>">
+        </div>
         <p><%=post.text%></p>
         <p>By <%=post.author.name%></p>
         <p>Posted <%=post.posted.toDateString()%></p>
@@ -102,11 +94,41 @@
         </div>
         <% }); %>
     </div>
-</div>
+</div> 
 
 <script>
-    $("#Glide").glide({
-        type: "carousel",
+    $(function(){
+      $("#slides").slidesjs({
+        width: 940,
+        height: 528,
+        play: {
+          active: false,
+            // [boolean] Generate the play and stop buttons.
+            // You cannot use your own buttons. Sorry.
+          effect: "fade",
+            // [string] Can be either "slide" or "fade".
+          interval: 5000,
+            // [number] Time spent on each slide in milliseconds.
+          auto: true,
+            // [boolean] Start playing the slideshow on load.
+          swap: true,
+            // [boolean] show/hide stop and play buttons
+          pauseOnHover: false,
+            // [boolean] pause a playing slideshow on hover
+          restartDelay: 2500
+            // [number] restart delay on inactive slideshow
+        },
+        navigation: {
+          active: false,
+            // [boolean] Generates next and previous buttons.
+            // You can set to false and use your own buttons.
+            // User defined buttons must have the following:
+            // previous button: class="slidesjs-previous slidesjs-navigation"
+            // next button: class="slidesjs-next slidesjs-navigation"
+          effect: "slide"
+            // [string] Can be either "slide" or "fade".
+        }
+      });
     });
 </script>
 

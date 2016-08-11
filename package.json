@@ -1,6 +1,6 @@
 {
   "name": "umnenergyclubwebsite",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
+    "cloudinary": "^1.4.1",
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
@@ -21,6 +22,7 @@
     "mailgun-js": "^0.7.11",
     "method-override": "^2.3.6",
     "mongoose": "^4.5.8",
+    "multer": "^1.2.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0"

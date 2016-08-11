@@ -3,6 +3,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var async = require("async");
+var multer = require("multer");  var upload = multer({ dest: 'uploads/' });
 
 //models
 var User = require("../models/user");
@@ -93,7 +94,7 @@ router.post("/register", function(req, res) {
 });
 
 //handle sign out
-router.get("/logout", middleware.isLoggedIn, function(req, res) {
+router.get("/logout", function(req, res) {
     req.logout();
     req.flash("success", "Signed you out!");
     res.redirect("/");
@@ -117,11 +118,12 @@ router.get("/settings", middleware.isLoggedIn, function(req, res) {
 router.post("/settings", middleware.isLoggedIn, function(req, res) {
     //as a security measure, a user object is used to update the user instead of relying on body parser's object if we used user[] for all the fields
     //this is so someone can't duplicate the page, add fields that would allow them to become an admin, and submit it to get admin access
+    console.log(req.body);
     req.body.bio = req.sanitize(req.body.bio);
     var userObj = {
         role: req.body.role,
         bio: req.body.bio,
-        //photo: req.body.photo
+        photo: req.body.photo
     };
     User.findByIdAndUpdate(req.user._id, userObj, function(err, updatedUser) {
         if (err) {
@@ -189,6 +191,14 @@ router.get("/officers", function(req, res) {
 router.post("/twilio/message", function(req, res) {
     //save this for later...
     console.log(req);
+});
+
+router.post("/cloudinary/upload", upload.single("file"), function(req, res) {
+    console.log(req.file);
+    apis.uploadImage(req, function(upload) {
+        console.log(upload);
+        res.json(upload);
+    });
 });
 
 router.post("/sendemail", function(req, res) {

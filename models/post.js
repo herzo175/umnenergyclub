@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 var PostSchema = new mongoose.Schema({
     title: String,
-    images: [String],
+    image: String,
     text: String,
     posted: {type: Date, default: Date.now}, //default value for the date is the time it is created
     comments: [
