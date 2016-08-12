@@ -12,6 +12,7 @@ cloudinary.config({ //set up cloudinary with api keys
   api_key: process.env.CLOUDINARYAPIKEY, 
   api_secret: process.env.CLOUDINARYAPISECRET
 });
+//note: environment variables must also be saved onto heroku
 
 //models
 
