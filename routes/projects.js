@@ -1,3 +1,4 @@
+//dependencies
 var express = require("express");
 var router = express.Router();
 
@@ -7,23 +8,28 @@ var Project = require("../models/project");
 //libraries
 var middleware = require("../library/middleware");
 
+//renders the projects page, finds all projects in the database
 router.get("/projects", function(req, res) {
     Project.find({}, function(err, foundProjects) {
         if (err) {
             console.log(err);
         }
         else {
+            //reverse order of the projects
             foundProjects.reverse();
             res.render("projects/projects", {projects: foundProjects});
         }
     });
 });
 
-router.get("/createproject", middleware.isLoggedIn, middleware.isLoggedIn, function(req, res) {
+//renders the create project page
+//checks if the person making the request is an officer or not
+router.get("/createproject", middleware.isLoggedIn, middleware.isOfficer, function(req, res) {
     res.render("projects/createproject");
 });
 
-router.post("/createproject", middleware.isLoggedIn, function(req, res) {
+//handles creation of a new project
+router.post("/createproject", middleware.isLoggedIn, middleware.isOfficer, function(req, res) {
     req.body.project.title = req.sanitize(req.body.project.title);
     req.body.project.text = req.sanitize(req.body.project.text);
     Project.create(req.body.project, function(err, newProject) {
@@ -31,6 +37,7 @@ router.post("/createproject", middleware.isLoggedIn, function(req, res) {
             console.log(err);
         }
         else {
+            //by default, make the active field in the database equal to true
             newProject.isActive = true;
             newProject.author.id = req.user;
             newProject.save();
@@ -40,7 +47,8 @@ router.post("/createproject", middleware.isLoggedIn, function(req, res) {
     });
 });
 
-router.get("/editproject/:project_id", middleware.isLoggedIn, function(req, res) {
+//render the edit page
+router.get("/editproject/:project_id", middleware.isLoggedIn, middleware.isOfficer, function(req, res) {
     Project.findById(req.params.project_id, function(err, foundProject) {
         if (err) {
             console.log(err);
@@ -51,7 +59,8 @@ router.get("/editproject/:project_id", middleware.isLoggedIn, function(req, res)
     });
 });
 
-router.put("/editproject/:project_id", middleware.isLoggedIn, function(req, res) {
+//handle the edit
+router.put("/editproject/:project_id", middleware.isLoggedIn, middleware.isOfficer, function(req, res) {
     req.body.project.title = req.sanitize(req.body.project.title);
     req.body.project.text = req.sanitize(req.body.project.text);
     Project.findByIdAndUpdate(req.params.project_id, req.body.project, function(err, updatedProject) {
@@ -65,12 +74,16 @@ router.put("/editproject/:project_id", middleware.isLoggedIn, function(req, res)
     });
 });
 
-router.get("/toggleproject/:project_id", middleware.isLoggedIn, function(req, res) {
+//change the status of a project from active to inactive
+//like a deletion, this is handled by clicking an icon
+//therefore, it must also be a GET request
+router.get("/toggleproject/:project_id", middleware.isLoggedIn, middleware.isOfficer, function(req, res) {
     Project.findById(req.params.project_id, function(err, foundProject) {
         if (err) {
             console.log(err);
         }
         else {
+            //once a project is found, the status of it is changed to the opposite status
             foundProject.isActive = !foundProject.isActive;
             foundProject.save();
             res.redirect("/projects");
@@ -78,6 +91,7 @@ router.get("/toggleproject/:project_id", middleware.isLoggedIn, function(req, re
     });
 });
 
+//handle delete project when icon is clicked
 router.get("/deleteproject/:project_id", middleware.isLoggedIn, function(req, res) {
     Project.findById(req.params.project_id, function(err, foundProject) {
         if (err) {

@@ -36,16 +36,6 @@
 </div>
 
 <script>
-    $("[type=file]").on("change", function(){
-      // Name of file and placeholder
-      var file = this.files[0].name;
-      var dflt = $(this).attr("placeholder");
-      if($(this).val()!=""){
-        $(this).next().text(file);
-      } else {
-        $(this).next().text(dflt);
-      }
-    });
     
     function upload() {
         var formData = new FormData($("#fileForm")[0]);
@@ -69,6 +59,16 @@
                   secure_url: 'https://res.cloudinary.com/demo/image/upload/v1371281596/sample.jpg' 
                 }*/
                 document.getElementById("photoField").value = data.url;
+                $("[type=file]").each(function(){
+                  // Name of file and placeholder
+                  var file = this.files[0].name;
+                  var dflt = $(this).attr("placeholder");
+                  if($(this).val()!=""){
+                    $(this).next().text(file);
+                  } else {
+                    $(this).next().text(dflt);
+                  }
+                });
             },
             error: errorHandler = function() {
                 alert("Something went wrong!");
@@ -81,6 +81,17 @@
             processData: false
         });
     }
+    
+    $("[type=file]").on("change", function(){
+      // Name of file and placeholder
+      var file = this.files[0].name;
+      var dflt = $(this).attr("placeholder");
+      if($(this).val()!=""){
+        $(this).next().text("Uploading...");
+      } else {
+        $(this).next().text(dflt);
+      }
+    });
 </script>
 
 <% include ./partials/footer %>

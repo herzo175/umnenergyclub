@@ -17,16 +17,22 @@ body {
     text-align: left;
 }
 
-/*a, a:hover {
+a i {
     color: black;
-}*/
-
-.glide__track {
-    width: 400px;
 }
 
-#centeredField {
-    padding-left: 42%;
-    padding-right: 42%;
-    padding-bottom: 10px;
+a[href*="delete"] i:hover {
+    color: darkred;
+}
+
+a[href*="edit"] i:hover {
+    color: teal;
+}
+
+a[href*="attend"] i:hover {
+    color: darkgreen;
+}
+
+a[href*="toggle"] i:hover {
+    color: navy;
 }

@@ -11,6 +11,7 @@
                             User
                         </div>
                     </th>
+                    <!--Uses ejs to create a column for every meeting-->
                     <% meetings.forEach(function(meeting) { %>
                         <th>
                             <div class="ui center aligned header">
@@ -21,11 +22,14 @@
                 </tr>
             </thead>
             <tbody>
+                <!--Uses ejs to create a row for every user-->
                 <% users.forEach(function(user) { %>
                     <tr>
                         <td>
                             <h5 class="ui header">
                                 <div class="ui toggle checkbox">
+                                    <!--The form attribute is used to place form elements, such as a checkbox, outside of the form-->
+                                    <!--When checked, the user's email is sent in an array containing the email addresses to send to when the form is submitted-->
                                     <input type="checkbox" name="emails" value="<%=user.email%>" form="emailForm">
                                     <label><%=user.name%></label>
                                 </div>
@@ -44,6 +48,7 @@
                 <% }) %>
             </tbody>
         </table>
+        <!--Form to enter information for the email. The form's information is used to send emails through mailgun's api-->
         <form class="ui form" id="emailForm" action="/sendemail" method="POST">
             <div class="ui header">Send Email</div>
             <div class="field">

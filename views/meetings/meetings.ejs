@@ -9,14 +9,14 @@
                     <%=meeting.title%>
                     <span style="float:right;">
                         <% if (meeting.attendeeNames.indexOf(currentUser.name) <= -1) { %>
-                        <a href="/attendmeeting/<%=meeting._id%>" style="color:black;">
+                        <a href="/attendmeeting/<%=meeting._id%>">
                                 <i class="sign in icon"></i>
                         </a>
                         <% } %>
-                        <a href="/deletemeeting/<%=meeting._id%>?_method=DELETE" style="color:black;">
+                        <a href="/deletemeeting/<%=meeting._id%>?_method=DELETE">
                             <i class="remove icon"></i>
                         </a>
-                        <a href="/editmeeting/<%=meeting._id%>" style="color:black;">
+                        <a href="/editmeeting/<%=meeting._id%>">
                             <i class="edit icon"></i>
                         </a>
                     </span>
@@ -28,7 +28,7 @@
                     <br><div class="ui header">
                         <%=meeting.title%>
                         <span style="float:right;">
-                            <a href="/attendmeeting/<%=meeting._id%>" style="color:black;">
+                            <a href="/attendmeeting/<%=meeting._id%>">
                                 <i class="sign in icon"></i>
                             </a>
                         </span>

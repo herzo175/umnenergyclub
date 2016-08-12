@@ -1,25 +1,26 @@
 <% include ./partials/header %>
 
+<!--Include the slides.js library so we can do a slideshow-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slidesjs/3.0/jquery.slides.min.js"></script>
-
-<style>
-    .slidesjs-pagination {
-        display:none;
-    }
-</style>
 
 <div class="ui two column centered grid">
     <div class="column">
+        <!--Image slider-->
         <div id="slides">
+            <!--use ejs to access the posts object passed to the page-->
+            <!--ejs tags enclose javascript functions with <% %> tags-->
             <% posts.forEach(function(post){ %>
+                <!--Checks each post if it has an image-->
                 <% if (post.image === "") { %>
                     <% return %>
                 <% } else { %>
-                    <img class="ui centered medium image" style="display:none;" src="<%=post.image%>">
+                    <!--If the post has an image, ejs makes an image with the source equal to the url of the image on Cloudinay-->
+                    <img class="ui centered medium image" src="<%=post.image%>"> <!--use <%= %> tags to access a particular part of the object passed to the page-->
                 <% } %>
             <% }) %>
-            <a href="#" class="slidesjs-previous slidesjs-navigation" title="Previous" style="color:black;display:none;"><i class="chevron left icon"></i></a>
-            <a href="#" class="slidesjs-next slidesjs-navigation" title="Next" style="color:black;display:none;"><i class="chevron right icon"></i></a>
+            <!--Navigation buttons. You can remove the style="display:none;" tags to enable them-->
+            <a href="#" class="slidesjs-previous slidesjs-navigation" title="Previous" style="display:none;"><i class="chevron left icon"></i></a>
+            <a href="#" class="slidesjs-next slidesjs-navigation" title="Next" style="display:none;"><i class="chevron right icon"></i></a>
         </div>
     </div>
 </div>
@@ -29,15 +30,20 @@
 <div class="ui two column centered grid">
     <div class="column">
         <% posts.forEach(function(post) { %>
+            <!--Before doing any operations on checking a currentUser object, we should check if there the person making the request is logged in first-->
             <% if (currentUser) { %>
+                <!--Then, we can check if the person making the request is either the author of the post or an officer-->
                 <% if (post.author.id.equals(currentUser._id) || currentUser.isOfficer === true) { %>
                 <br><div class="ui header">
                     <%=post.title%>
                     <span style="float:right;">
-                        <a href="/deletepost/<%=post._id%>?_method=DELETE" style="color:black;">
+                        <!--If they are an officer, display the delete button and edit button-->
+                        <!--When deleting a item, we usually make a DELETE request. However, links can only make GET requests-->
+                        <!--Although unorthodox, we make a GET request to /deletepost/post_id that will find and delete the post if a query condition is met-->
+                        <a href="/deletepost/<%=post._id%>?_method=DELETE">
                             <i class="remove icon"></i>
                         </a>
-                        <a href="/editpost/<%=post._id%>" style="color:black;">
+                        <a href="/editpost/<%=post._id%>">
                             <i class="edit icon"></i>
                         </a>
                     </span>
@@ -50,15 +56,19 @@
         <div class="ui medium image">
             <img src="<%=post.image%>">
         </div>
-        <p><%=post.text%></p>
+        <br><p><%=post.text%></p>
         <p>By <%=post.author.name%></p>
+        <!--Converts the post date to a string-->
         <p>Posted <%=post.posted.toDateString()%></p>
+        
         <div class="ui grid">
+            <!--This nested grid is used to position the comments withing the column containing the posts-->
             <div class="one wide column"></div>
             <div class="ten wide column">
                 <h5 class="ui left floated header">Comments:</h5>
                 <div class="ui clearing divider"></div>
                 <% if (currentUser) { %>
+                <!--If there is a user, allow them to fillout the form and make comments on the post-->
                 <form class="ui form" action="/createcomment/<%=post._id%>" method="POST">
                     <div class="inline fields">
                         <div class="field">
@@ -70,6 +80,8 @@
                     </div>
                 </form>
                 <% } %>
+                
+                <!--Show all posts and their respective icons-->
                 <% post.comments.forEach(function(comment) { %>
                     <% if (currentUser) { %>
                         <% if (comment.author.id.equals(currentUser._id) || currentUser.isOfficer === true) { %>
@@ -89,7 +101,9 @@
                     <% } %>
                     <p><%=comment.text%></p>
                 <% }) %>
+                
             </div>
+            
             <div class="five wide column"></div>
         </div>
         <% }); %>
@@ -97,6 +111,7 @@
 </div> 
 
 <script>
+    //function from slidesjs documentation
     $(function(){
       $("#slides").slidesjs({
         width: 940,
@@ -125,6 +140,13 @@
             // User defined buttons must have the following:
             // previous button: class="slidesjs-previous slidesjs-navigation"
             // next button: class="slidesjs-next slidesjs-navigation"
+          effect: "slide"
+            // [string] Can be either "slide" or "fade".
+        },
+        pagination: {
+          active: false,
+            // [boolean] Create pagination items.
+            // You cannot use your own pagination. Sorry.
           effect: "slide"
             // [string] Can be either "slide" or "fade".
         }

@@ -1,36 +1,58 @@
+            <!--The footer partial closes up the header.ejs partial and includes javascipt that can be used on all pages-->
             </div>
         </div>
         <script type="text/javascript">
+            
             $(document).ready(function () {
+                //loaded when the page is ready
+                //for all of these, if the page is at a certain address (href.indexOf), it adds the class active to that element of the menu container and removes it everywhere else
                 if(window.location.href.indexOf("about") > -1) {
                     $('.ui .item').removeClass('active');
+                    $('#aboutLink').removeClass('inactive');
                     $('#aboutLink').addClass('active');
                 }
                 else if(window.location.href.indexOf("calendar") > -1) {
                     $('.ui .item').removeClass('active');
+                    $('#calendarLink').removeClass('inactive');
                     $('#calendarLink').addClass('active');
                 }
                 else if(window.location.href.indexOf("meetings") > -1) {
                     $('.ui .item').removeClass('active');
+                    $('#meetingsLink').removeClass('inactive');
                     $('#meetingsLink').addClass('active');
                 }
                 else if(window.location.href.indexOf("contact") > -1) {
                     $('.ui .item').removeClass('active');
+                    $('#contactLink').removeClass('inactive');
                     $('#contactLink').addClass('active');
                 }
                 else if(window.location.href.indexOf("officers") > -1) {
                     $('.ui .item').removeClass('active');
+                    $('#officersLink').removeClass('inactive');
                     $('#officersLink').addClass('active');
                 }
                 else if(window.location.href.indexOf("projects") > -1) {
                     $('.ui .item').removeClass('active');
+                    $('#projectsLink').removeClass('inactive');
                     $('#projectsLink').addClass('active');
                 }
                 else {
                     $('.ui .item').removeClass('active');
                 }
+                //adds the class active to any menu item that has the class inactive when hovered over
+                //this must be declared on page load after the active field has been initalized so only tabs other than the one
+                //for the page we're on can change when hovered over
+                $(".inactive").hover(
+                    function () {
+                        $(this).addClass("active");
+                    },
+                    function () {
+                        $(this).removeClass("active");
+                    }
+                );
             });
             
+            //semantic ui functions
             $('.ui.dropdown').dropdown()
             
             $('.ui.sticky').sticky();

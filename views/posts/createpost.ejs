@@ -4,15 +4,22 @@
     <div class="two wide column"></div>
     <div class="twelve wide column">
         <div class="ui horizontal divider">New Post</div>
+        <!--This form is used to upload files to the api-->
+        <!--Is is important that forms containing file have enctype="multipart/form-data" specified-->
+        <!--When submitted, this form makes a POST request to /cloudinary/upload to handle uploading to the api-->
         <form class="ui form" id="fileForm" enctype="multipart/form-data" action="/cloudinary/upload" method="POST">
             <div class="fields">
                 <div class="field">
+                    <!--This is for styling the input button for the file-->
                     <input id="fileField" type="file" name="file" style="display:none;" placeholder="Add Picture" onchange="upload()"/>
                     <label for="fileField" class="ui basic button blue">Add Picture</label>
                 </div>
             </div>
         </form>
         <form class="ui form" action="/createpost" method="POST">
+            <!--When a file is uploaded, the image's url on cloudinary is used to fill in the value of this hidden field which can be accessed on the backend through req.body.post.image-->
+            <!--This entire form can be accessed in an object as req.body.post-->
+            <!--That way, when we create the post, we can use req.body.post to specify the object to use to create the post in the database-->
             <input type="hidden" id="photoField" name="post[image]">
             <div class="field">
                 <label for="titleField">Title</label>
@@ -31,17 +38,8 @@
 </div>
 
 <script>
-    $("[type=file]").on("change", function(){
-      // Name of file and placeholder
-      var file = this.files[0].name;
-      var dflt = $(this).attr("placeholder");
-      if($(this).val()!=""){
-        $(this).next().text(file);
-      } else {
-        $(this).next().text(dflt);
-      }
-    });
-    
+    //when the upload form changes, a POST request is made using the form to /cloudinary/upload. We get a JSON object back which we can operate with
+    //in our case, we need to get that JSON object back to update the value of the hidden field in the form used to create the post with the URL of the image
     function upload() {
         var formData = new FormData($("#fileForm")[0]);
         $.ajax({
@@ -51,7 +49,7 @@
             dataType: "json",
             //Ajax events
             success: completeHandler = function(data) {
-                console.log(data);
+                console.log(data); //debugging readout
                 //example of a data object that is returned:
                 /*{ 
                   public_id: 'sample',
@@ -63,19 +61,44 @@
                   url: 'http://res.cloudinary.com/demo/image/upload/v1371281596/sample.jpg',
                   secure_url: 'https://res.cloudinary.com/demo/image/upload/v1371281596/sample.jpg' 
                 }*/
+                //changes the value of the hidden field to contain the new image url
                 document.getElementById("photoField").value = data.url;
+                //assigns the function to run when the ajax request is complete
+                //changes the value of the placeholder to the name of the file that was uploaded
+                $("[type=file]").each(function(){
+                  // Name of file and placeholder
+                  var file = this.files[0].name;
+                  var dflt = $(this).attr("placeholder");
+                  if($(this).val()!=""){
+                    $(this).next().text(file);
+                  } else {
+                    $(this).next().text(dflt);
+                  }
+                });
             },
             error: errorHandler = function() {
                 alert("Something went wrong!");
             },
-            // Form data
+            // Form data to send to the backend
             data: formData,
-            //Options to tell jQuery not to process data or worry about content-type.
+            //Options to tell jquery not to process data or worry about content-type.
             cache: false,
             contentType: false,
             processData: false
         });
     }
+    
+    //when a file starts uploading, we can change the placeholder to say "Uploading..." until the file uploads
+    $("[type=file]").on("change", function(){
+      // Name of file and placeholder
+      var file = this.files[0].name;
+      var dflt = $(this).attr("placeholder");
+      if($(this).val()!=""){
+        $(this).next().text("Uploading...");
+      } else {
+        $(this).next().text(dflt);
+      }
+    });
 </script>
 
 <% include /partials/footer %>

@@ -17,10 +17,13 @@
                 </div>
             </div>
         </form>
+        <!--Since this is an update, we should make a PUT request-->
+        <!--However, we can't, so we use method override to make turn the POST request into a PUT request (?_method=PUT)-->
         <form class="ui form" action="/editpost/<%=post._id%>?_method=PUT" method="POST">
             <input type="hidden" id="photoField" name="post[image]">
             <div class="field">
                 <label for="titleField">Title</label>
+                <!--use ejs to set the value of the field, so the user doesn't have to fill in everyting again-->
                 <input id="titleField" type="text" name="post[title]" value="<%=post.title%>" placeholder="Title">
             </div>
             <div class="field">
@@ -36,16 +39,6 @@
 </div>
 
 <script>
-    $("[type=file]").on("change", function(){
-      // Name of file and placeholder
-      var file = this.files[0].name;
-      var dflt = $(this).attr("placeholder");
-      if($(this).val()!=""){
-        $(this).next().text(file);
-      } else {
-        $(this).next().text(dflt);
-      }
-    });
     
     function upload() {
         var formData = new FormData($("#fileForm")[0]);
@@ -69,6 +62,16 @@
                   secure_url: 'https://res.cloudinary.com/demo/image/upload/v1371281596/sample.jpg' 
                 }*/
                 document.getElementById("photoField").value = data.url;
+                $("[type=file]").each(function(){
+                  // Name of file and placeholder
+                  var file = this.files[0].name;
+                  var dflt = $(this).attr("placeholder");
+                  if($(this).val()!=""){
+                    $(this).next().text(file);
+                  } else {
+                    $(this).next().text(dflt);
+                  }
+                });
             },
             error: errorHandler = function() {
                 alert("Something went wrong!");
@@ -81,6 +84,17 @@
             processData: false
         });
     }
+    
+    $("[type=file]").on("change", function(){
+      // Name of file and placeholder
+      var file = this.files[0].name;
+      var dflt = $(this).attr("placeholder");
+      if($(this).val()!=""){
+        $(this).next().text("Uploading...");
+      } else {
+        $(this).next().text(dflt);
+      }
+    });
 </script>
 
 <% include /partials/footer %>

@@ -1,7 +1,9 @@
+<!--the header is known as a partial. It contains part of an HTML document that can be used as a template on other forms-->
 <!DOCTYPE html>
 <html>
     <head>
         <title>UMN Energy Club</title>
+        <!--CSS stylesheets and JS libraries-->
         <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
         <link rel="stylesheet" type= "text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css">
         <!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
@@ -11,22 +13,28 @@
     </head>
     <body>
         <div class="ui grid">
+            <!--Top part of every page containing the menu hamburger and site logo-->
             <div class="two column row">
                 <div class="column">
+                    <!--Site logo-->
                     <div class="menuContainer left" style="font-size:40px;padding:4%">
                         <a href="/" style="color:black;"><i class="sun icon"></i> UMN Energy Club</a>
                     </div>
                 </div>
                 <div class="column">
+                    <!--Menu hamburger-->
                     <div class="menuContainer right">
                         <div class="ui pointing dropdown top right"><i class="sidebar icon"></i>
                             <div class="menu">
+                                <!--If there isn't a current user, show the log in link. Otherwise, show options available to someone who is authenticated-->
                                 <% if (!currentUser) { %>
                                 <a href="/login" class="item"><i class="sign in icon"></i> Log in</a>
                                 <% } else { %>
+                                <!--If someone is logged in, they have the option to create a post or log out-->
                                 <a href="/logout" class="item"><i class="sign out icon"></i> Log Out</a>
                                 <a href="/createpost" class="item"><i class="options icon"></i> Create Post</a>
                                     <% if (currentUser.isOfficer) { %>
+                                    <!--If someone is authorized by being a user, they also have access to the following pages-->
                                     <a href="/createproject" class="item"><i class="idea icon"></i> Create Project</a>
                                     <a href="/createmeeting" class="item"><i class="maximize icon"></i> Create Meeting</a>
                                     <a href="/members" class="item"><i class="users icon"></i> Members</a>
@@ -43,31 +51,34 @@
                 <div class="column">
                     <div class="ui two column centered grid">
                         <div class= "column">
+                            <!--Menu containing links to general page requests-->
                             <div class="ui five item secondary pointing menu fluid">
-                                <a class="item" id="projectsLink" href="/projects">
+                                <!--As an example, this link makes a GET request to /projects, the route is handled in index.js-->
+                                <a class="inactive item" id="projectsLink" href="/projects">
                                     Projects
                                 </a>
-                                <a class="item" id="calendarLink" href="/calendar">
+                                <a class="inactive item" id="calendarLink" href="/calendar">
                                     Calendar
                                 </a>
-                                <a class="item" id="meetingsLink" href="/meetings">
+                                <a class="inactive item" id="meetingsLink" href="/meetings">
                                     Meetings
                                 </a>
-                                <a class="item" id="aboutLink" href="/about">
+                                <a class="inactive item" id="aboutLink" href="/about">
                                     About
                                 </a>
-                                <a class="item" id="officersLink" href="/officers">
+                                <a class="inactive item" id="officersLink" href="/officers">
                                     Officers
                                 </a>
-                                <a class="item" id="contactLink" href="/contact">
+                                <a class="inactive item" id="contactLink" href="/contact">
                                     Contact
                                 </a>
-                            </div>  
+                            </div> 
                         </div>
                     </div>
                 </div>
             </div>
             
+            <!--Used for displaying error and success messages-->
                 <% if (error && error.length > 0) { %>
                 <div class="one column row">
                     <div class="column">

@@ -1,5 +1,9 @@
-//dependencies (npm packages needed to run and build the app, must be installed (npm install package --save))
-var express = require("express"); //framework to handle requests and responses to the app
+//dependencies (npm packages needed to run and build the app)
+//before we start, we need to run npm init to create a package.json file
+//npm init will walk you through the steps, just fill in the blanks and be sure to list app.js as the starting point
+//to install a npm package, type in the command link "npm install packagename --save", where packagename is the name of the package
+//--save lists the package in the package.json file
+var express = require("express"); //framework to handle requests and responses to the app. this is usually the first and most important package we install (npm install express --save)
 var app = express(); //activates express as var app
 var bodyParser = require("body-parser"); //creates body objects in the request, used to access data sent to the app via a form
 var mongoose = require("mongoose"); //makes mongoDB easier to use
@@ -10,46 +14,38 @@ var localStrategy = require("passport-local"); //basic passport authentication s
 //var googleStrategy = require( 'passport-google-oauth2' ).Strategy; //allows us to sign up/login someone through google's api
 var passport = require("passport"); //the passport module itself. It's used to authenticate a user and keep their data persistent as they navigate from page to page
 var expressSanitizer = require("express-sanitizer"); //used to keep malicious code from being entered through forms
-//var multer = require("multer"); //used for file uploads
-//var expressSession = require("express-session")
-var helmet = require('helmet');
+var helmet = require('helmet'); //helmet is a security package. we just have to install and enable it
 
-//var config = require("./oauth");
+//var config = require("./oauth"); (js file containing api keys that allow us to use the facebook and google express strategies)
 
-//random stuff (activates many of the dependencies above)
-app.use(helmet());
+//activate npm packages (app wide)
+app.use(helmet()); //activates the helmet package
 app.set("view engine", "ejs"); //allows us to make and render ejs templates
-app.use(bodyParser.urlencoded({extended: true})); //allows us to use body parser
-app.use(expressSanitizer());
-app.use(express.static(__dirname + "/public")); //use the directory with the stylesheet
-app.use(methodOverride("_method")); //allows us to use method override
-app.use(flash()); //allows us to use flash messages
-//app.use(cookieParser());
-//app.use(expressSession({secret:'dontwatchbatmanvssuperman'}));
-//app.set('upload', multer({ dest: 'uploads/' }));
+app.use(bodyParser.urlencoded({extended: true})); //allows us to use body parser. Now, there is a body object in requests to the page (req.body) that we can access when we recieve a form. More on this later
+app.use(expressSanitizer()); //activates express sanitizer. Like body parser, it allows us to say req.sanitize when sanitizing req.body form data
+app.use(express.static(__dirname + "/public")); //use the directory with the stylesheet and js libraries
+app.use(methodOverride("_method")); //allows us to use method override so we can handle requests from forms other than GET and POST
+app.use(flash()); //allows us to use flash messages and send them to the user in req.flash format
 
-//database stuff (connects to either the local database (data directory) or the database connected to the hosted server
-var url = process.env.DATABASE || "mongodb://localhost/app";
-console.log(url);
-mongoose.connect(url);
-//mongoose.connect("mongodb://herzo175:T&&ron01@ds145295.mlab.com:45295/umn_energy_club");
-//var seedDB = require("./seeds.js"); //in case we want to seed the database with sample posts and users
-//seedDB();
+//database stuff (connects to either the local database (data directory) or the database connected to the hosted server. This is so we can work on either local development or live with different databases
+var url = process.env.DATABASE || "mongodb://localhost/app"; //connects to mongolab's database or the local database (which is turned on in another terminal by typing ./mongod)
+console.log(url); //displays the database we are using
+mongoose.connect(url); //connects mongoose to the mongoDB database at either mongolab or locally
 
 //authentication stuff
-var User = require("./models/user"); //imports the user model
+var User = require("./models/user"); //imports the user database model for authentication (in models folder)
 app.use(require("express-session")({ //used create persistent user data so they don't get logged out when the go to another page
     secret: "Tupac lives!", //this can be anything...
     name: "f&a877Z01001$$@qpz95", //this is totally random...
     resave: false,
     saveUninitialized: false,
 }));
-app.use(passport.initialize());
+app.use(passport.initialize()); //these two lines start an http session for each user once they start making requests to the page
 app.use(passport.session());
 
-passport.use(new localStrategy(User.authenticate()));
+passport.use(new localStrategy(User.authenticate())); //activates the local strategy for passport.js login with local strategy consists of a simple username and password
 
-/*passport.use(new facebookStrategy({
+/*passport.use(new facebookStrategy({ //facebook strategy. activate api on facebook developer dashboard
   clientID: config.facebook.clientID,
   clientSecret: config.facebook.clientSecret,
   callbackURL: config.facebook.callbackURL,
@@ -87,7 +83,7 @@ function(request, accessToken, refreshToken, profile, cb) {
   }
 ));
 
-passport.use(new googleStrategy({
+passport.use(new googleStrategy({ //google strategy for authentication. activate google plus and email apis on google developer dashboard
     clientID: config.google.clientID,
     clientSecret: config.google.clientSecret,
     callbackURL: config.google.callbackURL,
@@ -135,7 +131,7 @@ passport.use(new googleStrategy({
   }
 ));*/
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function(user, done) { //these two commands are required for authentication
   done(null, user);
 });
 
@@ -148,9 +144,9 @@ passport.deserializeUser(function(user, done) {
 
 //sends some basic data to the routes
 app.use(function(req, res, next) {
-    res.locals.currentUser = req.user;
-    res.locals.error = req.flash("error");
-    res.locals.success = req.flash("success");
+    res.locals.currentUser = req.user; //sends an object called currentUser to be accessable by all front end pages
+    res.locals.error = req.flash("error"); //creates a req.flash object called error that can be sent to the front end on all pages
+    res.locals.success = req.flash("success"); //creates a req.flash object called success that can be sent and accessed at all pages
     next();
 });
 
