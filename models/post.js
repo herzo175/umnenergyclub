@@ -6,6 +6,7 @@ var mongoose = require("mongoose");
 var PostSchema = new mongoose.Schema({
     title: String, //each post CAN contain a title, as long as it is a string. It is saved in the object as post.title. When saving manually, update the value (post.title = "blah") and save it (post.save())
     image: String, //image url
+    video: String, //video iframe
     text: String, //text from textarea
     posted: {type: Date, default: Date.now}, //default value for the date is the time it is created
     //array of comments, which are another database model called "Comment"

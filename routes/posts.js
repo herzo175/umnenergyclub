@@ -38,12 +38,24 @@ router.post("/createpost", middleware.isLoggedIn, function(req, res) {
     });
 });
 
-//render the edit page for the post, passing in the id of the post as /:post_id
+//renders viewpost page to allow a person to view a particular post
 //the user will be directed to this route, and a post with the matching id will be found
-router.get("/editpost/:post_id", middleware.isLoggedIn, function(req, res) {
+router.get("/viewpost/:post_id", function(req, res) {
     //finds a post based on the id of the post passed in by the http request
     //for example, someone makes a request to the page with the address https://umnenergyclub-herzo175.c9users.io/viewpost/abce12345
     //abce12345 is the id of the post, the below function takes that id and uses it to find a particular post in the database
+    Post.findById(req.params.post_id, function(err, foundPost) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.render("posts/viewpost", {post: foundPost});
+        }
+    })
+})
+
+//render the edit page for the post, passing in the id of the post as /:post_id
+router.get("/editpost/:post_id", middleware.isLoggedIn, function(req, res) {
     Post.findById(req.params.post_id, function(err, foundPost) {
         if (err) {
             console.log(err);

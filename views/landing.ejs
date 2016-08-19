@@ -40,23 +40,33 @@
                         <!--If they are an officer, display the delete button and edit button-->
                         <!--When deleting a item, we usually make a DELETE request. However, links can only make GET requests-->
                         <!--Although unorthodox, we make a GET request to /deletepost/post_id that will find and delete the post if a query condition is met-->
-                        <a href="/deletepost/<%=post._id%>?_method=DELETE">
-                            <i class="remove icon"></i>
+                        <a href="/viewpost/<%=post._id%>">
+                            <i class="eye icon"></i>
                         </a>
                         <a href="/editpost/<%=post._id%>">
                             <i class="edit icon"></i>
+                        </a>
+                        <a href="/deletepost/<%=post._id%>?_method=DELETE">
+                            <i class="remove icon"></i>
                         </a>
                     </span>
                 </div>
                 <% } %>
             <% } else { %>
             <br><div class="ui left floated header"><%=post.title%></div>
+            <span style="float:right;">
+                <a href="/viewpost/<%=post._id%>">
+                    <i class="eye icon"></i>
+                </a>
+            </span>
             <% } %>
         <div class="ui clearing divider"></div>
-        <div class="ui medium image">
+        
+        <div class="ui large image">
             <img src="<%=post.image%>">
         </div>
-        <br><p><%=post.text%></p>
+        
+        <br><br><p><%=post.text%></p>
         <p>By <%=post.author.name%></p>
         <!--Converts the post date to a string-->
         <p>Posted <%=post.posted.toDateString()%></p>
@@ -71,10 +81,10 @@
                 <!--If there is a user, allow them to fillout the form and make comments on the post-->
                 <form class="ui form" action="/createcomment/<%=post._id%>" method="POST">
                     <div class="inline fields">
-                        <div class="field">
+                        <div class="ten wide field">
                             <input type="text" name="comment[text]" placeholder="New Comment">
                         </div>
-                        <div class="field">
+                        <div class="four wide field">
                             <input type="submit" value="Submit" class="ui basic button violet">
                         </div>
                     </div>
@@ -106,6 +116,7 @@
             
             <div class="five wide column"></div>
         </div>
+        
         <% }); %>
     </div>
 </div> 

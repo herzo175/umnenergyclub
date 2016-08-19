@@ -10,14 +10,14 @@
                     <br><div class="ui header">
                         <%=project.title%>
                         <span style="float:right;">
-                            <a href="/deleteproject/<%=project._id%>?_method=DELETE" style="color:black;">
-                                <i class="remove icon"></i>
-                            </a>
                             <a href="/editproject/<%=project._id%>" style="color:black;">
                                 <i class="edit icon"></i>
                             </a>
                             <a href="/toggleproject/<%=project._id%>" style="color:black;">
                                 <i class="toggle on icon"></i>
+                            </a>
+                            <a href="/deleteproject/<%=project._id%>?_method=DELETE" style="color:black;">
+                                <i class="remove icon"></i>
                             </a>
                         </span>
                     </div>
@@ -39,14 +39,14 @@
                     <br><div class="ui header">
                         <%=project.title%>
                         <span style="float:right;">
-                            <a href="/deleteproject/<%=project._id%>?_method=DELETE">
-                                <i class="remove icon"></i>
-                            </a>
                             <a href="/editproject/<%=project._id%>">
                                 <i class="edit icon"></i>
                             </a>
                             <a href="/toggleproject/<%=project._id%>">
                                 <i class="toggle off icon"></i>
+                            </a>
+                            <a href="/deleteproject/<%=project._id%>?_method=DELETE">
+                                <i class="remove icon"></i>
                             </a>
                         </span>
                     </div>

@@ -21,6 +21,10 @@ a i {
     color: black;
 }
 
+a[href*="view"] i:hover {
+    color: turquoise;
+}
+
 a[href*="delete"] i:hover {
     color: darkred;
 }

@@ -20,7 +20,7 @@
         <!--Since this is an update, we should make a PUT request-->
         <!--However, we can't, so we use method override to make turn the POST request into a PUT request (?_method=PUT)-->
         <form class="ui form" action="/editpost/<%=post._id%>?_method=PUT" method="POST">
-            <input type="hidden" id="photoField" name="post[image]">
+            <input type="hidden" id="photoField" name="post[image]" value="<%=post.image%>">
             <div class="field">
                 <label for="titleField">Title</label>
                 <!--use ejs to set the value of the field, so the user doesn't have to fill in everyting again-->
@@ -29,6 +29,10 @@
             <div class="field">
                 <label for="textField">Body</label>
                 <textarea id="textField" type="text" name="post[text]" placeholder="Text"><%=post.text%></textarea>
+            </div>
+            <div class="field">
+                <label for="videoField">Video Embed Link</label>
+                <input id="videoField" type="text" name="post[video]" value="<%=post.video%>" placeholder="https://www.youtube.com/embed/H9VVkwRb_7M">
             </div>
             <div class="field">
                 <input type="submit" class="ui basic button teal" value="Edit Post">
